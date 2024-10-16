@@ -1,0 +1,21 @@
+Windows 11 更新 24H2 后自动开启 BBR2 造成代理失效:
+# 在Windows PowerShell（管理员）窗口
+
+# 查看
+Get-NetTCPSetting | Select SettingName,CongestionProvider
+
+SettingName      CongestionProvider
+-----------      ------------------
+Automatic
+InternetCustom   BBR2
+DatacenterCustom BBR2
+Compat           BBR2
+Datacenter       BBR2
+Internet         BBR2
+
+# 设置
+netsh int tcp set supplemental template=internet congestionprovider=CUBIC
+netsh int tcp set supplemental template=internetcustom congestionprovider=CUBIC
+netsh int tcp set supplemental template=Compat congestionprovider=NewReno
+netsh int tcp set supplemental template=Datacenter congestionprovider=CUBIC
+netsh int tcp set supplemental template=Datacentercustom congestionprovider=CUBIC
