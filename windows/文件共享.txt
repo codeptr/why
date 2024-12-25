@@ -1,0 +1,34 @@
+提示“出现了扩展错误。”
+---------------------------------------
+客户端
+gpedit.msc
+    Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options
+        Microsoft network client: Digitally sign communications (always)
+            Disabled
+
+PowerShell（管理员）窗口
+Get-SmbClientConfiguration | FL RequireSecuritySignature
+Set-SmbClientConfiguration -RequireSecuritySignature $false
+---------------------------------------
+服务端
+gpedit.msc
+    Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options
+        Microsoft network server: Digitally sign communications (always)
+            Disabled
+
+PowerShell（管理员）窗口
+Get-SmbServerConfiguration | FL RequireSecuritySignature
+Set-SmbServerConfiguration -RequireSecuritySignature $false
+
+=======================================
+
+提示访客相关问题
+---------------------------------------
+客户端、服务端
+gpedit.msc
+    Computer Configuration\Administrative Templates\Network\Lanman Workstation
+        Enable insecure guest logons
+            Enabled
+    Computer Configuration\Windows Settings\Security Settings\Local Policies\Security Options
+        Accounts: Guest account status
+            Enabled
